@@ -1,15 +1,12 @@
-package com.example.demo.cliente.repository;
+package com.example.demo.cliente.service;
+
+import java.util.List;
 
 import com.example.demo.cliente.model.Cliente;
 
-import java.util.List;
-import java.util.Optional;
+public interface ClienteService {
 
-public interface ClienteRepository {
-
-    /* SERVICIOS DE CLIENTE */
-
-    // GET
+	// GET
     List<Cliente> getTotalidadClientes();
     Cliente getCliente(Integer cliente_id);
 
@@ -23,5 +20,4 @@ public interface ClienteRepository {
 
     // DELETE
     void deleteClienteFisico(Integer cliente_id);
-
 }

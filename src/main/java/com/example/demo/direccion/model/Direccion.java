@@ -29,8 +29,6 @@ public class Direccion {
 		private String estado;
 		private String telefono;
 		
-		@JsonIgnore
-		
 		private String fecha_creacion;
 		private String fecha_actualizacion;
 		

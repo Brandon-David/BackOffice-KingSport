@@ -18,6 +18,8 @@ public class RMUsuario implements RowMapper<Usuario>{
         usuario.setNombre(rs.getString("nombre"));
         usuario.setApellido_paterno(rs.getString("apellido_paterno"));
         usuario.setApellido_materno(rs.getString("apellido_materno"));
+        usuario.setCorreo_usuario(rs.getString("correo_usuario"));
+        usuario.setContrasena(rs.getString("contrasena"));
         usuario.setEstado_usuario(rs.getString("estado_usuario"));
         
         usuario.setFecha_creacion(rs.getString("fecha_creacion"));
@@ -34,6 +36,8 @@ public class RMUsuario implements RowMapper<Usuario>{
         usuario.setNombre(rs.getString("nombre"));
         usuario.setApellido_paterno(rs.getString("apellido_paterno"));
         usuario.setApellido_materno(rs.getString("apellido_materno"));
+        usuario.setCorreo_usuario(rs.getString("correo_usuario"));
+        usuario.setContrasena(rs.getString("contrasena"));
         usuario.setEstado_usuario(rs.getString("estado_usuario"));
         
         usuario.setFecha_creacion(rs.getString(prefix + "fecha_creacion"));

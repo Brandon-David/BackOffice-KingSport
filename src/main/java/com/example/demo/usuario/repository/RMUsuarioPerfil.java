@@ -10,14 +10,8 @@ import com.example.demo.usuario.model.Usuario;
 
 public class RMUsuarioPerfil implements RowMapper<Usuario>{
 
-	 private final RMUsuario rmUsuario;
-	 private final RMPerfil rmPerfil;
-	
-	 public RMUsuarioPerfil(RMUsuario rmUsuario, RMPerfil rmPerfil) {
-		
-		 this.rmUsuario = rmUsuario;
-		 this.rmPerfil = rmPerfil;
-	 }
+	 private final RMUsuario rmUsuario = new RMUsuario();
+	 private final RMPerfil rmPerfil = new RMPerfil();
 	 
 	@Override
 	public Usuario mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -29,5 +23,4 @@ public class RMUsuarioPerfil implements RowMapper<Usuario>{
         return usuario;
 	}
 
-	
 }

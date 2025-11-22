@@ -1,14 +1,14 @@
-package com.example.demo.usuario.repository;
+package com.example.demo.usuario.service;
 
 import java.util.List;
 
 import com.example.demo.usuario.model.Perfil;
 import com.example.demo.usuario.model.Usuario;
 
-
-public interface UsuarioRepository {
+public interface UsuarioService {
 
 	/* SERVICIOS DE USUARIO */
+	
 		//GET
 	List<Usuario> getTotalidadUsuarios(String estado);
 	
@@ -16,8 +16,6 @@ public interface UsuarioRepository {
 	
 		//POST
 	Integer createUsuario(Usuario us);
-	
-	void createUsuarioPerfil(Integer usuario_id, Integer perfil_id);
 	
 		//PUT
 	void updateUsuario(Usuario us);
@@ -29,7 +27,8 @@ public interface UsuarioRepository {
 		//DELETE
 	void deleteUsuarioFisico(Integer usuario_id);
 	
-	/* SERVICIOS DE PERFIL*/
+	/* SERVICIOS DE PERFIL */
+	
 		//GET
 	List<Perfil> getTotalidadPerfiles(String estado);
 	
@@ -37,4 +36,5 @@ public interface UsuarioRepository {
 	
 		//POST
 	Integer createPerfil(Perfil p);
+	
 }

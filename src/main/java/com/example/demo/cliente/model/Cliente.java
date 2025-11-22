@@ -17,6 +17,7 @@ public class Cliente {
     private Integer direccion_principal_id;
 	private String nombre_completo;
 	private String correo;
+	private String telefono;
 	
 	@JsonIgnore
 	private String contrasena;

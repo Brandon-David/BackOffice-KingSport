@@ -1,6 +1,7 @@
 package com.example.demo.usuario.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,7 @@ public class Usuario {
 	private String apellido_materno;
 	private String correo_usuario;
 	
-	@JsonIgnore
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String contrasena;
 	private String estado_usuario;
 	

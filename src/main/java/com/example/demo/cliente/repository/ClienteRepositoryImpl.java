@@ -59,11 +59,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         query.append("c.cliente_id = :cliente_id");
         params.addValue("cliente_id", cliente_id);
 
-        return this.namedParameterJdbcTemplate.queryForObject(
-                query.toString(),
-                params,
-                new RMCliente()
-        );
+        return this.namedParameterJdbcTemplate.queryForObject(query.toString(), params, new RMCliente());
     }
 
     @Override
@@ -77,6 +73,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         columnas.add("direccion_principal_id");
         columnas.add("nombre_completo");
         columnas.add("correo");
+        columnas.add("telefono");
         columnas.add("contrasena");
 
         simpleInsert.setTableName("cliente");
@@ -86,6 +83,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         parametros.put("direccion_principal_id", c.getDireccion_principal_id());
         parametros.put("nombre_completo", c.getNombre_completo());
         parametros.put("correo", c.getCorreo());
+        parametros.put("telefono", c.getCorreo());
         parametros.put("contrasena", c.getContrasena());
 
         simpleInsert.setGeneratedKeyName("cliente_id");
@@ -110,6 +108,9 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         query.append("nombre_completo = :nombre_completo, ");
         params.addValue("nombre_completo", c.getNombre_completo());
 
+        query.append("telefono = :telefono, ");
+        params.addValue("telefono", c.getTelefono());
+        
         query.append("correo = :correo ");
         params.addValue("correo", c.getCorreo());
 
@@ -134,4 +135,11 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 
         this.namedParameterJdbcTemplate.update(query.toString(), params);
     }
+
+	@Override
+	public void updateEstadoCliente(Integer cliente_id, String estado) {
+		// TODO Auto-generated method stub
+		
+	}
+    
 }

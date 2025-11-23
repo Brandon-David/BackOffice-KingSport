@@ -31,6 +31,4 @@ public class Direccion {
 		
 		private String fecha_creacion;
 		private String fecha_actualizacion;
-		
-		
 }

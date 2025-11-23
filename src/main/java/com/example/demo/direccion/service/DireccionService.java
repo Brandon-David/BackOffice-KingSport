@@ -1,12 +1,11 @@
-package com.example.demo.direccion.repository;
-
+package com.example.demo.direccion.service;
 
 import java.util.List;
 
 import com.example.demo.direccion.model.Direccion;
 
-public interface DireccionRepository {
- 
+public interface DireccionService {
+
 	 // GET
     List<Direccion> getTotalidadDirecciones();
     
@@ -22,5 +21,4 @@ public interface DireccionRepository {
 
     // DELETE
     void deleteDireccionFisica(Integer direccion_id);
-    
 }

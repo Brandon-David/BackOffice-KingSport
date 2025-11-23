@@ -62,11 +62,7 @@ public class DireccionRepositoryImpl implements DireccionRepository {
         query.append("d.direccion_id = :direccion_id");
         params.addValue("direccion_id", direccion_id);
 
-        return this.namedParameterJdbcTemplate.queryForObject(
-                query.toString(),
-                params,
-                new RMDireccion()
-        );
+        return this.namedParameterJdbcTemplate.queryForObject(query.toString(), params, new RMDireccion());
     }
 
     @Override
@@ -81,11 +77,7 @@ public class DireccionRepositoryImpl implements DireccionRepository {
         query.append("d.cliente_id = :cliente_id");
         params.addValue("cliente_id", cliente_id);
 
-        return this.namedParameterJdbcTemplate.query(
-                query.toString(),
-                params,
-                new RMDireccion()
-        );
+        return this.namedParameterJdbcTemplate.query(query.toString(), params, new RMDireccion());
     }
 
     // POST
@@ -199,4 +191,5 @@ public class DireccionRepositoryImpl implements DireccionRepository {
 
         this.namedParameterJdbcTemplate.update(query.toString(), params);
     }
+    
 }

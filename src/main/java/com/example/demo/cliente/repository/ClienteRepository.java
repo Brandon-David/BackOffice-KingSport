@@ -20,6 +20,8 @@ public interface ClienteRepository {
     void updateCliente(Cliente cliente);
     
     void updateEstadoCliente(Integer cliente_id, String estado);
+    
+    void updateDireccionPredeterminada(Integer cliente_id, Integer direccion_id);
 
     // DELETE
     void deleteClienteFisico(Integer cliente_id);

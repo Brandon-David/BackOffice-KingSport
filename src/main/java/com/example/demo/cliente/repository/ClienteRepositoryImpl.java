@@ -39,6 +39,8 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 
     /* REPOSITORIO - CLIENTE */
 
+    //GET
+    
     @Override
     public List<Cliente> getTotalidadClientes(String estado) {
 
@@ -72,6 +74,8 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         return this.namedParameterJdbcTemplate.queryForObject(query.toString(), params, new RMCliente());
     }
 
+    //POST
+    
     @Override
     public Integer createCliente(Cliente c) {
 
@@ -104,6 +108,8 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 
         return cliente_id.intValue();
     }
+    
+    //PUT
 
     @Override
     public void updateCliente(Cliente c) {
@@ -132,23 +138,8 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 
         this.namedParameterJdbcTemplate.update(query.toString(), params);
     }
-
+    
     @Override
-    public void deleteClienteFisico(Integer cliente_id) {
-
-        log.info("Eliminando cliente ID: {}", cliente_id);
-
-        StringBuilder query = new StringBuilder(DELETE_CLIENTE_QUERY);
-        MapSqlParameterSource params = new MapSqlParameterSource();
-
-        query.append(" WHERE ");
-        query.append("c.cliente_id = :cliente_id");
-        params.addValue("cliente_id", cliente_id);
-
-        this.namedParameterJdbcTemplate.update(query.toString(), params);
-    }
-
-	@Override
 	public void updateEstadoCliente(Integer cliente_id, String estado) {
 		
 		log.info("Actualizando de estado de cliente ID: {}", cliente_id);
@@ -166,5 +157,42 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 
         this.namedParameterJdbcTemplate.update(query.toString(), params);
 	}
+    
+    @Override
+    public void updateDireccionPredeterminada(Integer cliente_id, Integer direccion_id) {
+
+        log.info("Actualizando dirección principal del cliente ID: {}", cliente_id);
+
+        StringBuilder query = new StringBuilder(UPDATE_CLIENTE_QUERY);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        query.append(" SET ");
+        query.append("direccion_principal_id = :direccion_principal_id ");
+        params.addValue("direccion_principal_id", direccion_id);
+
+        query.append(" WHERE ");
+        query.append("c.cliente_id = :cliente_id");
+        params.addValue("cliente_id", cliente_id);
+
+        this.namedParameterJdbcTemplate.update(query.toString(), params);
+    }
+      
+    //DELETE
+
+    @Override
+    public void deleteClienteFisico(Integer cliente_id) {
+
+        log.info("Eliminando cliente ID: {}", cliente_id);
+
+        StringBuilder query = new StringBuilder(DELETE_CLIENTE_QUERY);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        query.append(" WHERE ");
+        query.append("c.cliente_id = :cliente_id");
+        params.addValue("cliente_id", cliente_id);
+
+        this.namedParameterJdbcTemplate.update(query.toString(), params);
+    }
+    
     
 }

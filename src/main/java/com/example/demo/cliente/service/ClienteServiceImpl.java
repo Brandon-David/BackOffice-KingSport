@@ -55,12 +55,21 @@ public class ClienteServiceImpl implements ClienteService {
 
 	    @Override
 	    public void updateEstadoCliente(Integer cliente_id, String estado) {
-	        this.clienteRepository.updateEstadoCliente(cliente_id, estado);
+	        
+	    	this.clienteRepository.updateEstadoCliente(cliente_id, estado);
 	    }
-
+	    
+	    @Override
+	    public void updateDireccionPredeterminada(Integer cliente_id, Integer direccion_id) {
+	    	
+	    	this.clienteRepository.updateDireccionPredeterminada(cliente_id, direccion_id);
+	    }
+	    
 	    // DELETE
 	    @Override
 	    public void deleteClienteFisico(Integer cliente_id) {
-	        this.clienteRepository.deleteClienteFisico(cliente_id);
+	        
+	    	this.clienteRepository.deleteClienteFisico(cliente_id);
 	    }
+	    
 }

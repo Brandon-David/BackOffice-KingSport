@@ -3,14 +3,14 @@ package com.example.demo.cliente.repository;
 import com.example.demo.cliente.model.Cliente;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ClienteRepository {
 
     /* SERVICIOS DE CLIENTE */
 
     // GET
-    List<Cliente> getTotalidadClientes();
+    List<Cliente> getTotalidadClientes(String estado);
+    
     Cliente getCliente(Integer cliente_id);
 
     // POST

@@ -28,9 +28,9 @@ public class ClienteServiceImpl implements ClienteService {
 
 	    // GET
 	    @Override
-	    public List<Cliente> getTotalidadClientes() {
+	    public List<Cliente> getTotalidadClientes(String estado) {
 	    	
-	        return this.clienteRepository.getTotalidadClientes();
+	        return this.clienteRepository.getTotalidadClientes(estado);
 	    }
 
 	    @Override

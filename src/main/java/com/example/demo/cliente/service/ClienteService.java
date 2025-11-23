@@ -7,7 +7,8 @@ import com.example.demo.cliente.model.Cliente;
 public interface ClienteService {
 
 	// GET
-    List<Cliente> getTotalidadClientes();
+    List<Cliente> getTotalidadClientes(String estado);
+    
     Cliente getCliente(Integer cliente_id);
 
     // POST

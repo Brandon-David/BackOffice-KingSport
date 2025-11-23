@@ -1,6 +1,7 @@
 package com.example.demo.cliente.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,8 +19,9 @@ public class Cliente {
 	private String nombre_completo;
 	private String correo;
 	private String telefono;
+	private String estado;
 	
-	@JsonIgnore
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String contrasena;
 	
 	private String fecha_creacion;

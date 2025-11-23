@@ -40,11 +40,21 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     /* REPOSITORIO - CLIENTE */
 
     @Override
-    public List<Cliente> getTotalidadClientes() {
+    public List<Cliente> getTotalidadClientes(String estado) {
 
-        log.info("Obteniendo lista total de clientes...");
+    	log.info("Obteniendo lista total de clientes...");
+    	
+    	StringBuilder query = new StringBuilder(SELECT_CLIENTE_QUERY);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+    	
+        if(!estado.equals("*")) {
+        	
+        	query.append(" WHERE ");
+            query.append("c.estado = :estado");
+            params.addValue("estado", estado);
+        }
 
-        return this.jdbcTemplate.query(SELECT_CLIENTE_QUERY, new RMCliente());
+        return this.namedParameterJdbcTemplate.query(query.toString(), params, new RMCliente());
     }
 
     @Override
@@ -83,9 +93,11 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         parametros.put("direccion_principal_id", c.getDireccion_principal_id());
         parametros.put("nombre_completo", c.getNombre_completo());
         parametros.put("correo", c.getCorreo());
-        parametros.put("telefono", c.getCorreo());
+        parametros.put("telefono", c.getTelefono());
         parametros.put("contrasena", c.getContrasena());
 
+        System.out.println(c.getContrasena());
+        
         simpleInsert.setGeneratedKeyName("cliente_id");
 
         Number cliente_id = simpleInsert.executeAndReturnKey(parametros);
@@ -138,8 +150,21 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 
 	@Override
 	public void updateEstadoCliente(Integer cliente_id, String estado) {
-		// TODO Auto-generated method stub
 		
+		log.info("Actualizando de estado de cliente ID: {}", cliente_id);
+
+        StringBuilder query = new StringBuilder(UPDATE_CLIENTE_QUERY);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        query.append(" SET ");
+        query.append("estado = :estado ");
+        params.addValue("estado", estado);
+
+        query.append(" WHERE ");
+        query.append("c.cliente_id = :cliente_id");
+        params.addValue("cliente_id", cliente_id);
+
+        this.namedParameterJdbcTemplate.update(query.toString(), params);
 	}
     
 }

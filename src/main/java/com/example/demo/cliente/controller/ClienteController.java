@@ -46,20 +46,19 @@ public class ClienteController {
 
     @GetMapping("/all")
     @Operation(summary = "Listado de clientes", description = "${getAllCliente.description}")
-    public ResponseEntity<CustomResponse<List<Cliente>>> getTotalidadClientes() {
+    public ResponseEntity<CustomResponse<List<Cliente>>> getTotalidadClientes(@RequestParam("estado") String estado) {
 
         CustomResponse<List<Cliente>> rsp = new CustomResponse<>();
         HttpStatus httpStatus = HttpStatus.OK;
 
         try {
         	
-            List<Cliente> clientes = this.clienteService.getTotalidadClientes();
+            List<Cliente> clientes = this.clienteService.getTotalidadClientes(estado);
             rsp.setStatus(String.valueOf(httpStatus.value()));
             rsp.setMessage("Servicio exitoso");
             rsp.setData(clientes);
         } catch (Exception e) {
         	
-            // e.printStackTrace();
             log.trace(e.getMessage());
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             rsp.setStatus(String.valueOf(httpStatus.value()));
@@ -85,6 +84,7 @@ public class ClienteController {
             rsp.setData(cliente);
 
         } catch (Exception e) {
+        	
             log.trace(e.getMessage());
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             rsp.setStatus(String.valueOf(httpStatus.value()));
@@ -110,6 +110,7 @@ public class ClienteController {
             rsp.setData(clienteId);
         } catch (Exception e) {
         	
+        	//e.printStackTrace();
             log.trace(e.getMessage());
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             rsp.setStatus(String.valueOf(httpStatus.value()));

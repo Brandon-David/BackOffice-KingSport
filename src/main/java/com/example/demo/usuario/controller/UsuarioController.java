@@ -56,6 +56,7 @@ public class UsuarioController {
 			rsp.setMessage("Servicio exitoso");
 			rsp.setData(usuarios);
 		} catch (Exception e) {
+			
 			e.printStackTrace();
 			log.trace(e.getMessage());
 			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;

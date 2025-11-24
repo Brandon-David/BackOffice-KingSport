@@ -1,11 +1,13 @@
-package com.example.demo.tablas.repository;
+package com.example.demo.diseño.repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.demo.tablas.model.Diseño;
+import com.example.demo.diseño.model.Diseño;
+import com.example.demo.usuario.repository.RMPerfil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +27,13 @@ public class DiseñoRepositoryImpl implements DiseñoRepository {
 
     /* CONSULTAS (QUERY) MYSQL */
     //---> CONSULTAS - DISEÑO
-    private final String SELECT_DISEÑO_QUERY = "SELECT d.* FROM diseno d";
+    private final String SELECT_DISEÑO_QUERY = "SELECT * FROM diseno d";
     private final String UPDATE_DISEÑO_QUERY = "UPDATE diseno d";
     private final String DELETE_DISEÑO_QUERY = "DELETE FROM diseno d";
 
     @Autowired
     public DiseñoRepositoryImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate npJdbcTemplate) {
+    	
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = npJdbcTemplate;
     }
@@ -39,15 +42,25 @@ public class DiseñoRepositoryImpl implements DiseñoRepository {
 
     // GET
     @Override
-    public List<Diseño> getTotalidadDiseños() {
+    public List<Diseño> getTotalidadDiseños(String estado) {
 
         log.info("Obteniendo lista total de diseños...");
+        
+        StringBuilder query = new StringBuilder(SELECT_DISEÑO_QUERY);
+        MapSqlParameterSource params = new MapSqlParameterSource();
 
-        return this.jdbcTemplate.query(SELECT_DISEÑO_QUERY, new RMDiseño());
+        if(!estado.equals("*")) {
+			
+			query.append(" WHERE ");
+			query.append("d.estado = :estado");
+			params.addValue("estado", estado);
+		}
+        
+        return this.namedParameterJdbcTemplate.query(query.toString(), params, new RMDiseño());
     }
 
     @Override
-    public Diseño getDiseñoPorId(Integer diseno_id) {
+    public Diseño getDiseño(Integer diseno_id) {
 
         log.info("Obteniendo diseño por ID: {}", diseno_id);
 
@@ -58,11 +71,7 @@ public class DiseñoRepositoryImpl implements DiseñoRepository {
         query.append("d.diseno_id = :diseno_id");
         params.addValue("diseno_id", diseno_id);
 
-        return this.namedParameterJdbcTemplate.queryForObject(
-                query.toString(),
-                params,
-                new RMDiseño()
-        );
+        return this.namedParameterJdbcTemplate.queryForObject(query.toString(), params, new RMDiseño());
     }
 
     @Override
@@ -77,11 +86,7 @@ public class DiseñoRepositoryImpl implements DiseñoRepository {
         query.append("d.cliente_id = :cliente_id");
         params.addValue("cliente_id", cliente_id);
 
-        return this.namedParameterJdbcTemplate.query(
-                query.toString(),
-                params,
-                new RMDiseño()
-        );
+        return this.namedParameterJdbcTemplate.query(query.toString(), params, new RMDiseño());
     }
 
     // POST
@@ -100,7 +105,6 @@ public class DiseñoRepositoryImpl implements DiseñoRepository {
         columnas.add("tipo_cuello");
         columnas.add("descripcion_idea");
         columnas.add("boceto");
-        columnas.add("estado");
 
         simpleInsert.setTableName("diseno");
         simpleInsert.setColumnNames(columnas);
@@ -113,7 +117,6 @@ public class DiseñoRepositoryImpl implements DiseñoRepository {
         parametros.put("tipo_cuello", d.getTipo_cuello());
         parametros.put("descripcion_idea", d.getDescripcion_idea());
         parametros.put("boceto", d.getBoceto());
-        parametros.put("estado", d.getEstado());
 
         simpleInsert.setGeneratedKeyName("diseno_id");
 
@@ -150,8 +153,13 @@ public class DiseñoRepositoryImpl implements DiseñoRepository {
         query.append("boceto = :boceto, ");
         params.addValue("boceto", d.getBoceto());
 
+        /*
         query.append("estado = :estado ");
         params.addValue("estado", d.getEstado());
+        */
+        
+        query.append("estado = :estado ");
+        params.addValue("estado", "Pendiente");
 
         query.append(" WHERE ");
         query.append("d.diseno_id = :diseno_id");
@@ -160,6 +168,24 @@ public class DiseñoRepositoryImpl implements DiseñoRepository {
         this.namedParameterJdbcTemplate.update(query.toString(), params);
     }
 
+    public void updateEstadoDiseño(Integer diseno_id, String estado) {
+    	
+    	log.info("Actualizando del estado del diseño ID: {}", diseno_id);
+
+        StringBuilder query = new StringBuilder(UPDATE_DISEÑO_QUERY);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        query.append(" SET ");
+        query.append("estado = :estado ");
+        params.addValue("estado", estado);
+
+        query.append(" WHERE ");
+        query.append("diseno_id = :diseno_id");
+        params.addValue("diseno_id", diseno_id);
+
+        this.namedParameterJdbcTemplate.update(query.toString(), params);
+    }
+    
     // DELETE
     @Override
     public void deleteDiseñoFisico(Integer diseno_id) {

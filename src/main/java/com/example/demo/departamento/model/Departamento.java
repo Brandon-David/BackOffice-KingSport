@@ -1,6 +1,7 @@
-package com.example.demo.tablas.model;
+package com.example.demo.departamento.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,14 +11,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Categoria {
+public class Departamento {
 
-    private Integer categoria_id;
+    private Integer departamento_id;
     private String nombre;
 
-    @JsonIgnore
     private String fecha_creacion;
-
-    @JsonIgnore
     private String fecha_actualizacion;
+    
+    List<Categoria> categorias;
 }

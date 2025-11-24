@@ -1,4 +1,4 @@
-package com.example.demo.tablas.model;
+package com.example.demo.diseño.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,5 @@
-package com.example.demo.tablas.model;
+package com.example.demo.cliente.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,13 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Favoritos {
 
-    private Integer favoritos_id;   // PK
-    private Integer cliente_id;     // FK cliente
-    private Integer producto_id;    // FK producto
+    private Integer favoritos_id;   
+    private Integer cliente_id;     
+    private Integer producto_id;    
 
-    @JsonIgnore
     private String fecha_creacion;
-
-    @JsonIgnore
     private String fecha_actualizacion;
 }

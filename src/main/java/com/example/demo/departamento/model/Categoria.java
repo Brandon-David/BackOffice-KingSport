@@ -1,5 +1,7 @@
 package com.example.demo.departamento.model;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,5 +20,5 @@ public class Categoria {
     private String fecha_creacion;
     private String fecha_actualizacion;
     
-    
+    List<Subcategoria> subcategorias;
 }

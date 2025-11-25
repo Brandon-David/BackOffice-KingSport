@@ -38,6 +38,12 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 
         return this.departamentoRepository.getDepartamento(departamento_id);
     }
+    
+    @Override
+    public List<Departamento> getTotalidadDepartamentosCatSub() {
+
+        return this.departamentoRepository.getTotalidadDepartamentosCatSub();
+    }
 
     @Override
     public Integer createDepartamento(Departamento d) {

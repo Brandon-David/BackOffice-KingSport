@@ -1,4 +1,4 @@
-package com.example.demo.tablas.model;
+package com.example.demo.producto.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

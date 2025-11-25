@@ -17,13 +17,10 @@ public class Carrito {
 	    private Integer producto_id;
 
 	    private Integer cantidad;
-	    private Double precio;      // puedes cambiar a BigDecimal si lo prefieres
+	    private Double precio;
 	    private Double subtotal;
 
-	    @JsonIgnore
 	    private String fecha_creacion;
-
-	    @JsonIgnore
 	    private String fecha_actualizacion;
 	
 }

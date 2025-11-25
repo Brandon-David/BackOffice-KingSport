@@ -1,6 +1,7 @@
 package com.example.demo.cliente.repository;
 
 import com.example.demo.cliente.model.Cliente;
+import com.example.demo.cliente.model.Favoritos;
 
 import java.util.List;
 
@@ -25,5 +26,21 @@ public interface ClienteRepository {
 
     // DELETE
     void deleteClienteFisico(Integer cliente_id);
+    
+    
+    /* SERVICIOS DE FAVORITOS */
+
+    // GET
+    List<Favoritos> getTotalidadFavoritos();
+    
+    Favoritos getFavoritosPorId(Integer favoritos_id);
+    
+    List<Favoritos> getFavoritosPorCliente(Integer cliente_id);
+
+    // POST
+    Integer createFavoritos(Favoritos f);
+
+    // DELETE
+    void deleteFavoritosFisico(Integer favoritos_id);
 
 }

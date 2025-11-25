@@ -94,6 +94,34 @@ public class DepartamentoController {
         return new ResponseEntity<>(rsp, httpStatus);
     }
 
+    @GetMapping("/all/categorias/subcategorias")
+    @Operation(summary = "Listado de departamentos, en conjunto a sus categorias y subcategorias correspondientes", description = "${getDepartamentosTree.description}"
+    )
+    public ResponseEntity<CustomResponse<List<Departamento>>> getTotalidadDepartamentosCatSub() {
+
+        CustomResponse<List<Departamento>> rsp = new CustomResponse<>();
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        try {
+
+            List<Departamento> departamentos = this.departamentoService.getTotalidadDepartamentosCatSub();
+
+            rsp.setStatus(String.valueOf(httpStatus.value()));
+            rsp.setMessage("Servicio exitoso");
+            rsp.setData(departamentos);
+        } catch (Exception e) {
+
+        	e.printStackTrace();
+            log.trace(e.getMessage());
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            rsp.setStatus(String.valueOf(httpStatus.value()));
+            rsp.setMessage("Servicio fallido");
+            rsp.setErrorDescription(e.getMessage());
+        }
+
+        return new ResponseEntity<>(rsp, httpStatus);
+    }
+    
     @PostMapping
     @Operation(summary = "Creación de departamento", description = "${postDepartamento.description}")
     public ResponseEntity<CustomResponse<Integer>> createDepartamento(@RequestBody Departamento departamento) {
@@ -121,8 +149,7 @@ public class DepartamentoController {
 
     @PutMapping
     @Operation(summary = "Actualización de departamento", description = "${putDepartamento.description}")
-    public ResponseEntity<CustomResponse<Void>> updateDepartamento(
-            @RequestBody Departamento departamento) {
+    public ResponseEntity<CustomResponse<Void>> updateDepartamento(@RequestBody Departamento departamento) {
 
         CustomResponse<Void> rsp = new CustomResponse<>();
         HttpStatus httpStatus = HttpStatus.OK;
@@ -147,8 +174,7 @@ public class DepartamentoController {
 
     @DeleteMapping
     @Operation(summary = "Borrado de departamento", description = "${deleteDepartamento.description}")
-    public ResponseEntity<CustomResponse<Void>> deleteDepartamento(
-            @RequestParam("departamento_id") Integer departamento_id) {
+    public ResponseEntity<CustomResponse<Void>> deleteDepartamento(@RequestParam("departamento_id") Integer departamento_id) {
 
         CustomResponse<Void> rsp = new CustomResponse<>();
         HttpStatus httpStatus = HttpStatus.OK;
@@ -265,6 +291,7 @@ public class DepartamentoController {
 
         } catch (Exception e) {
 
+        	e.printStackTrace();
             log.trace(e.getMessage());
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             rsp.setStatus(String.valueOf(httpStatus.value()));

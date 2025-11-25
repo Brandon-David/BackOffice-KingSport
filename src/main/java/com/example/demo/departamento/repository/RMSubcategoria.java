@@ -15,6 +15,7 @@ public class RMSubcategoria implements RowMapper<Subcategoria> {
         Subcategoria subcategoria = new Subcategoria();
 
         subcategoria.setSubcategoria_id(rs.getInt("subcategoria_id"));
+        subcategoria.setCategoria_id(rs.getInt("categoria_id"));
         subcategoria.setNombre(rs.getString("nombre"));
         subcategoria.setFecha_creacion(rs.getString("fecha_creacion"));
         subcategoria.setFecha_actualizacion(rs.getString("fecha_actualizacion"));
@@ -27,7 +28,8 @@ public class RMSubcategoria implements RowMapper<Subcategoria> {
         Subcategoria subcategoria = new Subcategoria();
 
         subcategoria.setSubcategoria_id(rs.getInt("subcategoria_id"));
-        subcategoria.setNombre(rs.getString("nombre"));
+        subcategoria.setCategoria_id(rs.getInt(prefix + "categoria_id"));
+        subcategoria.setNombre(rs.getString(prefix +"nombre"));
         subcategoria.setFecha_creacion(rs.getString(prefix + "fecha_creacion"));
         subcategoria.setFecha_actualizacion(rs.getString(prefix + "fecha_actualizacion"));
 

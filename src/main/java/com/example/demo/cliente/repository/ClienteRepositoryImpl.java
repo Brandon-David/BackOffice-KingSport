@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.cliente.model.Cliente;
 
+
 @Repository
 public class ClienteRepositoryImpl implements ClienteRepository {
 
@@ -31,6 +32,11 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     private final String UPDATE_CLIENTE_QUERY = "UPDATE cliente c";
     private final String DELETE_CLIENTE_QUERY = "DELETE FROM cliente c";
 
+    /* CONSULTAS (QUERY) MYSQL */
+    //---> CONSULTAS - FAVORITOS
+    private final String SELECT_FAVORITOS_QUERY = "SELECT f.* FROM favoritos f";
+    private final String DELETE_FAVORITOS_QUERY = "DELETE FROM favoritos f";
+    
     @Autowired
     public ClienteRepositoryImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate npJdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -190,6 +196,90 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         query.append(" WHERE ");
         query.append("c.cliente_id = :cliente_id");
         params.addValue("cliente_id", cliente_id);
+
+        this.namedParameterJdbcTemplate.update(query.toString(), params);
+    }
+    
+    /* REPOSITORIO - FAVORITOS */
+
+    // GET
+    @Override
+    public List<Favoritos> getTotalidadFavoritos() {
+
+        log.info("Obteniendo lista total de favoritos...");
+
+        return this.jdbcTemplate.query(SELECT_FAVORITOS_QUERY, new RMFavoritos());
+    }
+
+    @Override
+    public Favoritos getFavoritosPorId(Integer favoritos_id) {
+
+        log.info("Obteniendo favorito por ID: {}", favoritos_id);
+
+        StringBuilder query = new StringBuilder(SELECT_FAVORITOS_QUERY);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        query.append(" WHERE ");
+        query.append("f.favoritos_id = :favoritos_id");
+        params.addValue("favoritos_id", favoritos_id);
+
+        return this.namedParameterJdbcTemplate.queryForObject(query.toString(), params, new RMFavoritos());
+    }
+
+    @Override
+    public List<Favoritos> getFavoritosPorCliente(Integer cliente_id) {
+
+        log.info("Obteniendo favoritos del cliente ID: {}", cliente_id);
+
+        StringBuilder query = new StringBuilder(SELECT_FAVORITOS_QUERY);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        query.append(" WHERE ");
+        query.append("f.cliente_id = :cliente_id");
+        params.addValue("cliente_id", cliente_id);
+
+        return this.namedParameterJdbcTemplate.query(query.toString(), params, new RMFavoritos());
+    }
+
+    // POST
+    @Override
+    public Integer createFavoritos(Favoritos f) {
+
+        log.info("Creando favorito para cliente ID: {}, producto ID: {}",
+                f.getCliente_id(), f.getProducto_id());
+
+        SimpleJdbcInsert simpleInsert = new SimpleJdbcInsert(this.jdbcTemplate);
+
+        List<String> columnas = new ArrayList<>();
+        columnas.add("cliente_id");
+        columnas.add("producto_id");
+
+        simpleInsert.setTableName("favoritos");
+        simpleInsert.setColumnNames(columnas);
+
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("cliente_id", f.getCliente_id());
+        parametros.put("producto_id", f.getProducto_id());
+
+        simpleInsert.setGeneratedKeyName("favoritos_id");
+
+        Number favoritos_id = simpleInsert.executeAndReturnKey(parametros);
+
+        return favoritos_id.intValue();
+    }
+
+    // DELETE
+    @Override
+    public void deleteFavoritosFisico(Integer favoritos_id) {
+
+        log.info("Eliminando favorito ID: {}", favoritos_id);
+
+        StringBuilder query = new StringBuilder(DELETE_FAVORITOS_QUERY);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        query.append(" WHERE ");
+        query.append("f.favoritos_id = :favoritos_id");
+        params.addValue("favoritos_id", favoritos_id);
 
         this.namedParameterJdbcTemplate.update(query.toString(), params);
     }

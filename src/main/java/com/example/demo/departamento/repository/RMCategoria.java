@@ -15,6 +15,7 @@ public class RMCategoria implements RowMapper<Categoria> {
         Categoria categoria = new Categoria();
         
         categoria.setCategoria_id(rs.getInt("categoria_id"));
+        categoria.setDepartamento_id(rs.getInt("departamento_id"));
         categoria.setNombre(rs.getString("nombre"));
         categoria.setFecha_creacion(rs.getString("fecha_creacion"));
         categoria.setFecha_actualizacion(rs.getString("fecha_actualizacion"));
@@ -27,7 +28,8 @@ public class RMCategoria implements RowMapper<Categoria> {
         Categoria categoria = new Categoria();
         
         categoria.setCategoria_id(rs.getInt("categoria_id"));
-        categoria.setNombre(rs.getString("nombre"));
+        categoria.setDepartamento_id(rs.getInt(prefix + "departamento_id"));
+        categoria.setNombre(rs.getString(prefix +"nombre"));
         categoria.setFecha_creacion(rs.getString(prefix + "fecha_creacion"));
         categoria.setFecha_actualizacion(rs.getString(prefix + "fecha_actualizacion"));
         

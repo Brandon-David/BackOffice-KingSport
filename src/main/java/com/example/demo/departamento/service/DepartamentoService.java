@@ -12,7 +12,10 @@ public interface DepartamentoService {
 	
 		// GET
 	List<Departamento> getTotalidadDepartamentos();
+	
 	Departamento getDepartamento(Integer departamento_id);
+	
+	List<Departamento> getTotalidadDepartamentosCatSub();
 	
 		// POST
 	Integer createDepartamento(Departamento d);

@@ -31,6 +31,24 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
     private final String UPDATE_DEPTO_QUERY = "UPDATE departamento d";
     private final String DELETE_DEPTO_QUERY = "DELETE FROM departamento d";
 
+    private static final String SELECT_DEPTO_CATEGORIAS_SUB_QUERY =
+    	    "SELECT " +
+    	    "d.departamento_id, " +
+    	    "d.nombre              AS d_nombre, " +
+    	    "d.fecha_creacion      AS d_fecha_creacion, " +
+    	    "d.fecha_actualizacion AS d_fecha_actualizacion, " +
+    	    "c.categoria_id, " +
+    	    "c.departamento_id     AS c_departamento_id, " +
+    	    "c.nombre              AS c_nombre, " +
+    	    "c.fecha_creacion      AS c_fecha_creacion, " +
+    	    "c.fecha_actualizacion AS c_fecha_actualizacion, " +
+    	    "sc.subcategoria_id, " +
+    	    "sc.categoria_id        AS sc_categoria_id, " +
+    	    "sc.nombre              AS sc_nombre, " +
+    	    "sc.fecha_creacion      AS sc_fecha_creacion, " +
+    	    "sc.fecha_actualizacion AS sc_fecha_actualizacion " +
+    	    "FROM departamento d ";
+    
     /* CONSULTAS (QUERY) MYSQL - CATEGORIA */
     private final String SELECT_CAT_QUERY = "SELECT c.* FROM categoria c";
     private final String UPDATE_CAT_QUERY = "UPDATE categoria c";
@@ -70,7 +88,29 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 
         return this.namedParameterJdbcTemplate.queryForObject(query.toString(), params, new RMDepartamento());
     }
+    
+    @Override
+    public List<Departamento> getTotalidadDepartamentosCatSub() {
 
+        log.info("Obteniendo lista total de departamentos, sus categorias y categotias");
+
+        StringBuilder query = new StringBuilder(SELECT_DEPTO_CATEGORIAS_SUB_QUERY);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        query.append("LEFT JOIN categoria c ON d.departamento_id = c.departamento_id ");
+	    query.append("LEFT JOIN subcategoria sc ON c.categoria_id = sc.categoria_id ");
+
+	    /*
+        query.append("WHERE c.departamento_id = :departamento_id");
+        params.addValue("departamento_id", departamento_id);
+        */
+	    
+        query.append("ORDER BY d.departamento_id, c.categoria_id, sc.subcategoria_id");
+        
+
+        return this.namedParameterJdbcTemplate.queryForObject(query.toString(), params, new RSEDepartamentoCatSub());
+    }
+    
     @Override
     public Integer createDepartamento(Departamento d) {
 
@@ -182,13 +222,13 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
         StringBuilder query = new StringBuilder(UPDATE_CAT_QUERY);
         MapSqlParameterSource params = new MapSqlParameterSource();
 
-        query.append(" SET nombre = :nombre ");
+        query.append(" SET nombre = :nombre, ");
         params.addValue("nombre", c.getNombre());
         
-        query.append(" SET departamento_id = :departamento_id, ");
+        query.append(" departamento_id = :departamento_id ");
         params.addValue("departamento_id", c.getDepartamento_id());
 
-        query.append(" WHERE c.categoria_id = :categoria_id");
+        query.append(" WHERE c.categoria_id = :categoria_id ");
         params.addValue("categoria_id", c.getCategoria_id());
 
         this.namedParameterJdbcTemplate.update(query.toString(), params);
@@ -265,15 +305,15 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
         StringBuilder query = new StringBuilder(UPDATE_SUBCAT_QUERY);
         MapSqlParameterSource params = new MapSqlParameterSource();
 
-        query.append(" SET nombre = :nombre ");
+        query.append(" SET nombre = :nombre, ");
         params.addValue("nombre", s.getNombre());
         
-        query.append(" SET categoria_id = :categoria_id, ");
+        query.append(" categoria_id = :categoria_id ");
         params.addValue("categoria_id", s.getCategoria_id());
 
         query.append(" WHERE s.subcategoria_id = :subcategoria_id");
         params.addValue("subcategoria_id", s.getSubcategoria_id());
-
+        
         this.namedParameterJdbcTemplate.update(query.toString(), params);
     }
 

@@ -2,7 +2,7 @@ package com.example.demo.tablas.repository;
 
 import java.util.List;
 
-import com.example.demo.tablas.model.Producto;
+import com.example.demo.producto.model.Producto;
 
 public interface ProductoRepository {
 

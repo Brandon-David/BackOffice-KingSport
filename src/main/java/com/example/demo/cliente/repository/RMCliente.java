@@ -9,7 +9,7 @@ import com.example.demo.cliente.model.Cliente;
 
 public class RMCliente implements RowMapper<Cliente> {
 
-	  @Override
+	@Override
 	    public Cliente mapRow(ResultSet rs, int rowNum) throws SQLException {
 	        Cliente cliente = new Cliente();
 	        cliente.setCliente_id(rs.getInt("cliente_id"));

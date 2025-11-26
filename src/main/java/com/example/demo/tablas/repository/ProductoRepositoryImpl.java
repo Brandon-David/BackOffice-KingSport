@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.demo.tablas.model.Producto;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,9 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+
+import com.example.demo.producto.model.Producto;
+import com.example.demo.producto.repository.RMProducto;
 
 @Repository
 public class ProductoRepositoryImpl implements ProductoRepository {
@@ -126,7 +129,6 @@ public class ProductoRepositoryImpl implements ProductoRepository {
         parametros.put("stock_L", p.getStock_L());
         parametros.put("stock_XL", p.getStock_XL());
         parametros.put("stock_XXL", p.getStock_XXL());
-        parametros.put("stock_XXXL", p.getStock_XXXL());
         parametros.put("stock", p.getStock());
         parametros.put("disponibilidad", p.getDisponibilidad());
         parametros.put("codigo_sku", p.getCodigo_sku());
@@ -174,9 +176,6 @@ public class ProductoRepositoryImpl implements ProductoRepository {
 
         query.append("stock_XXL = :stock_XXL, ");
         params.addValue("stock_XXL", p.getStock_XXL());
-
-        query.append("stock_XXXL = :stock_XXXL, ");
-        params.addValue("stock_XXXL", p.getStock_XXXL());
 
         query.append("stock = :stock, ");
         params.addValue("stock", p.getStock());

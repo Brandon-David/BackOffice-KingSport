@@ -15,6 +15,9 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.cliente.model.Cliente;
+import com.example.demo.cliente.model.Favoritos;
+import com.example.demo.producto.model.Producto;
+import com.example.demo.producto.repository.RMProducto;
 
 
 @Repository
@@ -36,6 +39,8 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     //---> CONSULTAS - FAVORITOS
     private final String SELECT_FAVORITOS_QUERY = "SELECT f.* FROM favoritos f";
     private final String DELETE_FAVORITOS_QUERY = "DELETE FROM favoritos f";
+    
+    private final String SELECT_PRODUCTOS_FAVORITOS_QUERY = "SELECT p.* FROM favoritos f ";
     
     @Autowired
     public ClienteRepositoryImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate npJdbcTemplate) {
@@ -225,7 +230,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 
         return this.namedParameterJdbcTemplate.queryForObject(query.toString(), params, new RMFavoritos());
     }
-
+    
     @Override
     public List<Favoritos> getFavoritosPorCliente(Integer cliente_id) {
 
@@ -240,13 +245,29 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 
         return this.namedParameterJdbcTemplate.query(query.toString(), params, new RMFavoritos());
     }
+    
+    @Override
+    public List<Producto> getProductosFavoritosPorCliente(Integer cliente_id) {
+
+        log.info("Obteniendo productos favoritos del cliente ID: {}", cliente_id);
+
+        StringBuilder query = new StringBuilder(SELECT_PRODUCTOS_FAVORITOS_QUERY);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        query.append("JOIN producto p ON p.producto_id = f.producto_id");
+        query.append(" WHERE ");
+        query.append("f.cliente_id = :cliente_id");
+        params.addValue("cliente_id", cliente_id);
+
+        return this.namedParameterJdbcTemplate.query(query.toString(), params, new RMProducto());
+    }
 
     // POST
     @Override
     public Integer createFavoritos(Favoritos f) {
 
         log.info("Creando favorito para cliente ID: {}, producto ID: {}",
-                f.getCliente_id(), f.getProducto_id());
+      f.getCliente_id(), f.getProducto_id());
 
         SimpleJdbcInsert simpleInsert = new SimpleJdbcInsert(this.jdbcTemplate);
 
@@ -270,16 +291,17 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 
     // DELETE
     @Override
-    public void deleteFavoritosFisico(Integer favoritos_id) {
+    public void deleteFavoritosFisico(Integer cliente_id, Integer producto_id) {
 
-        log.info("Eliminando favorito ID: {}", favoritos_id);
+        log.info("Eliminando favorito de cliente ID: {}", cliente_id);
 
         StringBuilder query = new StringBuilder(DELETE_FAVORITOS_QUERY);
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         query.append(" WHERE ");
-        query.append("f.favoritos_id = :favoritos_id");
-        params.addValue("favoritos_id", favoritos_id);
+        query.append("f.cliente_id = :cliente_id AND f.producto_id = :producto_id ");
+        params.addValue("cliente_id", cliente_id);
+        params.addValue("producto_id", producto_id);
 
         this.namedParameterJdbcTemplate.update(query.toString(), params);
     }

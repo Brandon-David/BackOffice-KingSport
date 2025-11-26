@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.cliente.model.Cliente;
+import com.example.demo.cliente.model.Favoritos;
 import com.example.demo.cliente.repository.ClienteRepository;
+import com.example.demo.producto.model.Producto;
 import com.example.demo.usuario.service.UsuarioServiceImpl;
 
 @Service
@@ -70,6 +72,48 @@ public class ClienteServiceImpl implements ClienteService {
 	    public void deleteClienteFisico(Integer cliente_id) {
 	        
 	    	this.clienteRepository.deleteClienteFisico(cliente_id);
+	    }
+	    
+	    /* SERVICIOS - FAVORITOS */
+		
+	    // GET
+	    @Override
+	    public List<Favoritos> getTotalidadFavoritos() {
+	
+	        return this.clienteRepository.getTotalidadFavoritos();
+	    }
+	
+	    @Override
+	    public Favoritos getFavoritosPorId(Integer favoritos_id) {
+
+	
+	        return this.clienteRepository.getFavoritosPorId(favoritos_id);
+	    }
+	
+	    @Override
+	    public List<Favoritos> getFavoritosPorCliente(Integer cliente_id) {
+	
+	        return this.clienteRepository.getFavoritosPorCliente(cliente_id);
+	    }
+	
+	    @Override
+	    public List<Producto> getProductosFavoritosPorCliente(Integer cliente_id) {
+	
+	        return this.clienteRepository.getProductosFavoritosPorCliente(cliente_id);
+	    }
+	
+	    // POST
+	    @Override
+	    public Integer createFavoritos(Favoritos f) {
+	
+	        return this.clienteRepository.createFavoritos(f);
+	    }
+	
+	    // DELETE
+	    @Override
+	    public void deleteFavoritosFisico(Integer cliente_id, Integer producto_id) {
+	
+	        this.clienteRepository.deleteFavoritosFisico(cliente_id, producto_id);
 	    }
 	    
 }

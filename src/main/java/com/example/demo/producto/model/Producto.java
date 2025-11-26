@@ -22,12 +22,12 @@ public class Producto {
     private String descripcion;         
     private Double precio;                       
 
+    private Integer stock_XS;
     private Integer stock_S;
     private Integer stock_M;
     private Integer stock_L;
     private Integer stock_XL;
     private Integer stock_XXL;
-    private Integer stock_XXXL;
 
     private Integer stock;              
     private Boolean disponibilidad;

@@ -108,6 +108,13 @@ public class ClienteServiceImpl implements ClienteService {
 	
 	        return this.clienteRepository.createFavoritos(cliente_id, producto_id);
 	    }
+	    
+	    @Override
+	    public void insertFavoritosCarrito(Integer cliente_id) {
+	    	
+	    	List<Producto> productos = clienteRepository.getProductosFavoritosPorCliente(cliente_id);
+	    	this.clienteRepository.createCarritoPorFavoritos(cliente_id, productos);
+	    }
 	
 	    // DELETE
 	    @Override

@@ -42,6 +42,11 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     
     private final String SELECT_PRODUCTOS_FAVORITOS_QUERY = "SELECT p.* FROM favoritos f ";
     
+    /* CONSULTAS (QUERY) MYSQL */
+    //---> CONSULTAS - CARRITO
+    
+    
+    
     @Autowired
     public ClienteRepositoryImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate npJdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -305,5 +310,43 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         this.namedParameterJdbcTemplate.update(query.toString(), params);
     }
     
+    /* REPOSITORIO - CARRITO */
+    
+    // POST
+    @Override
+    public void createCarritoPorFavoritos(Integer cliente_id, List<Producto> productos) {
+
+        log.info("Creando productos en carrito de compra en base a favoritos...");
+        
+        SimpleJdbcInsert simpleInsert = new SimpleJdbcInsert(this.jdbcTemplate);
+
+        List<String> columnas = new ArrayList<>();
+        columnas.add("cliente_id");
+        columnas.add("producto_id");
+        columnas.add("cantidad");
+        columnas.add("precio");
+        
+        simpleInsert.setTableName("carrito_compra");
+        simpleInsert.setColumnNames(columnas);
+        
+        List<Map<String, Object>> batchParams = new ArrayList<>();
+
+        for (Producto p : productos) {
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("cliente_id", cliente_id);
+            params.put("producto_id", p.getProducto_id());
+            params.put("cantidad", 1);
+            params.put("precio", p.getPrecio());
+
+            batchParams.add(params);
+        }
+
+        // Ejecutamos el batch
+        @SuppressWarnings("unchecked")
+        Map<String, Object>[] batchArray = batchParams.toArray(new Map[0]);
+
+        simpleInsert.executeBatch(batchArray);
+    }
     
 }

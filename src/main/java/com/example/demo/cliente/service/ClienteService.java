@@ -40,7 +40,12 @@ public interface ClienteService {
     // POST
     Integer createFavoritos(Integer cliente_id, Integer producto_id);
 
+    void insertFavoritosCarrito(Integer cliente_id);
+    
     // DELETE
     void deleteFavoritosFisico(Integer cliente_id, Integer producto_id);
 
+    /* SERVICIOS DE CARRITO */
+    
+    
 }

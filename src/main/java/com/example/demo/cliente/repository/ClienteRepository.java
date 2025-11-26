@@ -45,5 +45,10 @@ public interface ClienteRepository {
 
     // DELETE
     void deleteFavoritosFisico(Integer cliente_id, Integer producto_id);
+    
+    /* SERVICIOS DE CARRITO */
+    
+    // POST
+    void createCarritoPorFavoritos(Integer cliente_id, List<Producto> productos); 
 
 }

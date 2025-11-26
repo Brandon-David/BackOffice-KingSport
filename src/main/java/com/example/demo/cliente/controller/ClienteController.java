@@ -349,6 +349,32 @@ public class ClienteController {
 
         return new ResponseEntity<>(rsp, httpStatus);
     }
+    
+    @PostMapping("/favoritos/Carrito")
+    @Operation(summary = "Agregar producto a favoritos", description = "${postFavoritos.description}")
+    public ResponseEntity<CustomResponse<Void>> insertFavoritosCarrito(@RequestParam("cliente_id") Integer cliente_id) {
+
+        CustomResponse<Void> rsp = new CustomResponse<>();
+        HttpStatus httpStatus = HttpStatus.CREATED;
+
+        try {
+
+        	this.clienteService.insertFavoritosCarrito(cliente_id);
+            rsp.setStatus(String.valueOf(httpStatus.value()));
+            rsp.setMessage("Servicio exitoso");
+        } catch (Exception e) {
+
+        	e.printStackTrace();
+            log.trace(e.getMessage());
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            rsp.setStatus(String.valueOf(httpStatus.value()));
+            rsp.setMessage("Servicio fallido");
+            rsp.setErrorDescription(e.getMessage());
+        }
+
+        return new ResponseEntity<>(rsp, httpStatus);
+    }
+    
 
     @DeleteMapping("/favoritos")
     @Operation(summary = "Borrado físico de un favorito", description = "${deleteFavoritos.description}")
@@ -373,5 +399,6 @@ public class ClienteController {
 
         return new ResponseEntity<>(rsp, httpStatus);
     }
+    
     
 }

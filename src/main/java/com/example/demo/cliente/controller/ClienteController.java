@@ -299,7 +299,7 @@ public class ClienteController {
     }
 
     @GetMapping("/favoritos/productos")
-    @Operation(summary = "Productos favoritos de un cliente", description = "${getProductosFavoritosPorCliente.description}")
+    @Operation(summary = "Listado de productos favoritos de un cliente", description = "${getProductosFavoritosPorCliente.description}")
     public ResponseEntity<CustomResponse<List<Producto>>> getProductosFavoritosPorCliente(@RequestParam("cliente_id") Integer cliente_id) {
 
         CustomResponse<List<Producto>> rsp = new CustomResponse<>();
@@ -326,14 +326,14 @@ public class ClienteController {
 
     @PostMapping("/favoritos")
     @Operation(summary = "Agregar producto a favoritos", description = "${postFavoritos.description}")
-    public ResponseEntity<CustomResponse<Integer>> createFavoritos(@RequestBody Favoritos favoritos) {
+    public ResponseEntity<CustomResponse<Integer>> createFavoritos(@RequestParam("cliente_id") Integer cliente_id, @RequestParam("producto_id") Integer producto_id) {
 
         CustomResponse<Integer> rsp = new CustomResponse<>();
         HttpStatus httpStatus = HttpStatus.CREATED;
 
         try {
 
-            Integer favoritosId = this.clienteService.createFavoritos(favoritos);
+            Integer favoritosId = this.clienteService.createFavoritos(cliente_id, producto_id);
             rsp.setStatus(String.valueOf(httpStatus.value()));
             rsp.setMessage("Servicio exitoso");
             rsp.setData(favoritosId);

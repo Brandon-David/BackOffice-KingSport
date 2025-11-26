@@ -104,9 +104,9 @@ public class ClienteServiceImpl implements ClienteService {
 	
 	    // POST
 	    @Override
-	    public Integer createFavoritos(Favoritos f) {
+	    public Integer createFavoritos(Integer cliente_id, Integer producto_id) {
 	
-	        return this.clienteRepository.createFavoritos(f);
+	        return this.clienteRepository.createFavoritos(cliente_id, producto_id);
 	    }
 	
 	    // DELETE

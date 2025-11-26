@@ -264,10 +264,9 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 
     // POST
     @Override
-    public Integer createFavoritos(Favoritos f) {
+    public Integer createFavoritos(Integer cliente_id, Integer producto_id) {
 
-        log.info("Creando favorito para cliente ID: {}, producto ID: {}",
-      f.getCliente_id(), f.getProducto_id());
+        log.info("Creando favorito para cliente ID: {}, producto ID: {}", cliente_id, producto_id);
 
         SimpleJdbcInsert simpleInsert = new SimpleJdbcInsert(this.jdbcTemplate);
 
@@ -279,8 +278,8 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         simpleInsert.setColumnNames(columnas);
 
         Map<String, Object> parametros = new HashMap<>();
-        parametros.put("cliente_id", f.getCliente_id());
-        parametros.put("producto_id", f.getProducto_id());
+        parametros.put("cliente_id", cliente_id);
+        parametros.put("producto_id", producto_id);
 
         simpleInsert.setGeneratedKeyName("favoritos_id");
 

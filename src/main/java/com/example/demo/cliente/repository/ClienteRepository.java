@@ -41,7 +41,7 @@ public interface ClienteRepository {
     List<Producto> getProductosFavoritosPorCliente(Integer cliente_id);
 
     // POST
-    Integer createFavoritos(Favoritos f);
+    Integer createFavoritos(Integer cliente_id, Integer producto_id);
 
     // DELETE
     void deleteFavoritosFisico(Integer cliente_id, Integer producto_id);

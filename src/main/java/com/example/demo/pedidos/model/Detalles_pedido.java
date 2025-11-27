@@ -1,5 +1,6 @@
-package com.example.demo.tablas.model;
+package com.example.demo.pedidos.model;
 
+import com.example.demo.producto.model.Producto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,19 +13,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Detalles_pedido {
 
-    private Integer detalle_pedido_id;   // PK
-    private Integer pedido_id;           // FK pedido
-    private Integer producto_id;         // FK producto
+    private Integer detalle_pedido_id;   
+    private Integer pedido_id;           
+    private Integer producto_id;         
 
     private Integer cantidad;
     private Double precio;
     private String talla;
-    private String personalizacion;      // VARCHAR(20) aprox.
+    private String personalizacion;      
     private Double subtotal;
 
-    @JsonIgnore
     private String fecha_creacion;
-
-    @JsonIgnore
     private String fecha_actualizacion;
+    
+    private Producto producto;
 }

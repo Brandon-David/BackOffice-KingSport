@@ -1,5 +1,8 @@
-package com.example.demo.tablas.model;
+package com.example.demo.pedidos.model;
 
+import java.util.List;
+
+import com.example.demo.cliente.model.Cliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,14 +18,15 @@ public class Pedido {
     private Integer pedido_id;
     private Integer cliente_id;
 
-    private String estado;      // ENUM en BD
+    private String estado;
     private Double subtotal;
     private Double costo_envio;
     private Double total;
 
-    @JsonIgnore
     private String fecha_creacion;
-
-    @JsonIgnore
     private String fecha_actualizacion;
+    
+    private Cliente cliente;
+    private List<Detalles_pedido> detalles_pedido;
+    private Envio envio;
 }

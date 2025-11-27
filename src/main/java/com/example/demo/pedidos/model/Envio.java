@@ -1,5 +1,6 @@
-package com.example.demo.tablas.model;
+package com.example.demo.pedidos.model;
 
+import com.example.demo.direccion.model.Direccion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,12 +18,15 @@ public class Envio {
     private Integer direccion_id;
     private Integer opcion_entrega_id;
 
-    private String estado;              // ENUM en BD
-    private String numero_seguimiento;  // VARCHAR(50)
+    private String estado;   
+    private String fecha_pendiente;
+    private String fecha_enviado;
+    private String fecha_en_camino;
+    private String fecha_entregado;
+    private String numero_seguimiento;
 
-    @JsonIgnore
     private String fecha_creacion;
-
-    @JsonIgnore
     private String fecha_actualizacion;
+    
+    private Direccion direccion;
 }
